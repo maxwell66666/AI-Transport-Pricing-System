@@ -20,11 +20,8 @@ sys.path.append(str(ROOT_DIR))
 
 # 使用绝对导入
 from src.api.v1.api import api_router
-from src.utils.config import get_settings
+from src.utils.config import settings
 from src.routes.quotes import router as quotes_router
-
-# 获取配置
-settings = get_settings()
 
 # 加载环境变量
 load_dotenv()

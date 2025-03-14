@@ -14,11 +14,17 @@
 ### 模型修复
 - [x] 修复`get_feature_importance`方法中的索引长度不匹配问题
 
+### 代码优化
+- [x] 解决Pydantic V1风格的`@validator`弃用警告，迁移到V2风格的`@field_validator`
+- [x] 解决SQLAlchemy的`declarative_base()`弃用警告
+- [x] 修复main.py中的导入错误
+
+### 功能增强
+- [x] 添加用户界面，方便非技术用户使用
+
 ## 待完成任务
 
 ### 代码优化
-- [ ] 解决Pydantic V1风格的`@validator`弃用警告，迁移到V2风格的`@field_validator`
-- [ ] 解决SQLAlchemy的`declarative_base()`弃用警告
 - [ ] 优化价格预测API中的默认值设置，使用更合理的估算方法
 - [ ] 添加更多的输入验证和错误处理
 
@@ -26,7 +32,6 @@
 - [ ] 实现更精确的距离计算功能
 - [ ] 添加更多的运输方式和货物类型
 - [ ] 改进机器学习模型的准确性
-- [ ] 添加用户界面，方便非技术用户使用
 
 ### 文档和测试
 - [ ] 完善API文档，添加更多示例

@@ -12,7 +12,7 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional, Union
 from functools import lru_cache
 
-from pydantic import AnyHttpUrl, Field, PostgresDsn, validator
+from pydantic import AnyHttpUrl, Field, PostgresDsn, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -30,7 +30,8 @@ class Settings(BaseSettings):
     # BACKEND_CORS_ORIGINS is a comma-separated list of origins
     BACKEND_CORS_ORIGINS: List[AnyHttpUrl] = []
 
-    @validator("BACKEND_CORS_ORIGINS", pre=True)
+    @field_validator("BACKEND_CORS_ORIGINS", mode="before")
+    @classmethod
     def assemble_cors_origins(cls, v: Union[str, List[str]]) -> Union[List[str], str]:
         """Validate CORS origins."""
         if isinstance(v, str) and not v.startswith("["):
@@ -46,11 +47,12 @@ class Settings(BaseSettings):
     POSTGRES_DB: str = "ai_transport"
     SQLALCHEMY_DATABASE_URI: Optional[PostgresDsn] = None
 
-    @validator("SQLALCHEMY_DATABASE_URI", pre=True)
-    def assemble_db_connection(cls, v: Optional[str], values: Dict[str, Any]) -> Any:
-        """Assemble database URI."""
+    @field_validator("SQLALCHEMY_DATABASE_URI", mode="before")
+    @classmethod
+    def assemble_db_connection(cls, v: Optional[str], info) -> Any:
         if isinstance(v, str):
             return v
+        values = info.data
         return PostgresDsn.build(
             scheme="postgresql",
             username=values.get("POSTGRES_USER"),
@@ -145,14 +147,18 @@ class Settings(BaseSettings):
         env_prefix=""
     )
     
-    @validator("DATABASE_URL", pre=True)
+    @field_validator("DATABASE_URL", mode="before")
+    @classmethod
     def validate_database_url(cls, v: str) -> str:
         """验证数据库URL，如果是相对路径的SQLite，转换为绝对路径"""
         if v.startswith("sqlite:///./"):
-            return f"sqlite:///{ROOT_DIR / v[13:]}"
+            db_path = v[13:]
+            if not os.path.isabs(db_path):
+                return f"sqlite:///{os.path.join(ROOT_DIR, db_path)}"
         return v
     
-    @validator("CORS_ORIGINS", pre=True)
+    @field_validator("CORS_ORIGINS", mode="before")
+    @classmethod
     def validate_cors_origins(cls, v: Union[str, List[str]]) -> List[str]:
         """验证CORS_ORIGINS，支持字符串和列表格式"""
         if isinstance(v, str) and not v.startswith("["):
@@ -162,25 +168,28 @@ class Settings(BaseSettings):
             return json.loads(v)
         return v
     
-    @validator("LOG_FILE", pre=True)
+    @field_validator("LOG_FILE", mode="before")
+    @classmethod
     def validate_log_file(cls, v: str) -> str:
         """验证日志文件路径，转换为绝对路径"""
         if not os.path.isabs(v):
-            return str(ROOT_DIR / v)
+            return os.path.join(ROOT_DIR, v)
         return v
     
-    @validator("ML_MODEL_PATH", "ML_SCALER_PATH", pre=True)
+    @field_validator("ML_MODEL_PATH", "ML_SCALER_PATH", mode="before")
+    @classmethod
     def validate_ml_paths(cls, v: str) -> str:
         """验证机器学习模型路径，转换为绝对路径"""
         if not os.path.isabs(v):
-            return str(ROOT_DIR / v)
+            return os.path.join(ROOT_DIR, v)
         return v
     
-    @validator("STATIC_FILES_DIR", "UPLOAD_FILES_DIR", pre=True)
+    @field_validator("STATIC_FILES_DIR", "UPLOAD_FILES_DIR", mode="before")
+    @classmethod
     def validate_dir_paths(cls, v: str) -> str:
         """验证目录路径，转换为绝对路径"""
         if not os.path.isabs(v):
-            return str(ROOT_DIR / v)
+            return os.path.join(ROOT_DIR, v)
         return v
     
     def get_database_url(self, testing: bool = False) -> str:
