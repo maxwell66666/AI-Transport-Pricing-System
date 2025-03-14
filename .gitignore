@@ -1,0 +1,118 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environment
+venv/
+env/
+ENV/
+.env
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Logs
+logs/
+*.log
+
+# Database
+*.db
+*.sqlite3
+*.sqlite
+
+# Models
+*.pkl
+*.h5
+*.joblib
+*.model
+data/models/
+
+# Environment variables
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# OS specific
+Thumbs.db
+desktop.ini
+
+# 临时文件
+tmp/
+temp/
+.temp/
+.tmp/
+
+# 敏感信息
+secrets/
+credentials/
+*.pem
+*.key
+*.crt
+
+# 依赖锁定文件
+poetry.lock
+Pipfile.lock
+
+# 文档构建
+docs/_build/
+docs/site/
+
+# 测试覆盖率报告
+coverage/
+.coverage.*
+
+# 前端
+node_modules/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+.pnpm-debug.log
+.pnp/
+.pnp.js
+.yarn/
+.yarnrc
+.npmrc
+
+# 打包文件
+*.tar.gz
+*.zip
+*.rar
+*.7z
+
+# 其他
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Project specific
+data/processed/
+!data/sample_data/ 

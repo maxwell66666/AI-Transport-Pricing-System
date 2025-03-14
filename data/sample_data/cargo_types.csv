@@ -1,0 +1,16 @@
+id,name,description,is_dangerous,requires_temperature_control
+1,普通货物,一般商品和物品,false,false
+2,电子产品,电脑、手机等电子设备,false,false
+3,服装纺织品,衣物、布料等纺织品,false,false
+4,机械设备,工业机械和设备,false,false
+5,汽车零部件,汽车相关零部件,false,false
+6,家具,桌椅、沙发等家具,false,false
+7,食品,各类食品,false,true
+8,医药产品,药品和医疗用品,false,true
+9,化学品,各类化学物质,true,false
+10,危险品,易燃易爆物品,true,false
+11,冷冻食品,需要冷冻保存的食品,false,true
+12,鲜活产品,需要保持新鲜的产品,false,true
+13,贵重物品,珠宝、艺术品等高价值物品,false,false
+14,大型设备,大型机械设备,false,false
+15,液体货物,各类液体产品,false,false 
